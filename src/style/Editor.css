@@ -1,0 +1,98 @@
+/* Layout */
+#editor-div {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    color: #2b2b2b;
+    line-height: 1.6;
+    overflow-y: auto;
+  }
+  
+  /* Editor block spacing */
+  .ce-block {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Block placeholder */
+  .ce-paragraph[data-placeholder]:empty::before {
+    color: #999;
+    font-style: italic;
+  }
+  
+  /* Headings */
+  .ce-header {
+    font-weight: 600;
+    margin: 1rem 0;
+  }
+  .ce-delimiter {
+    display: block;
+    height: 1px;
+    /* background-color: #ccc; */
+    border: none;
+    margin: 2rem 0;
+    text-indent: -9999px; /* Hides the *** */
+    overflow: hidden;
+    /* height: 2px; */
+  background-color: #0077ff;
+  border-radius: 2px;
+  }
+  
+  /* Alignment icons */
+  .cdx-settings-button,
+  .ce-popover__item-icon {
+    color: #555;
+  }
+  
+  .cdx-settings-button:hover,
+  .ce-popover__item-icon:hover {
+    color: #111;
+  }
+  
+  /* Tool buttons in inline toolbar */
+  .cdx-inline-tool {
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #f5f5f5;
+    margin-right: 4px;
+    font-size: 14px;
+    transition: background 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .cdx-inline-tool:hover,
+  .cdx-inline-tool--active {
+    background-color: #e0e0e0;
+  }
+  
+  /* Marker (highlight) */
+  .cdx-marker {
+    background-color: #fff176;
+  }
+  
+  /* Underline */
+  .cdx-underline {
+    text-decoration: underline;
+  }
+  
+  /* Strikethrough */
+  .cdx-strikethrough {
+    text-decoration: line-through;
+  }
+  
+  /* Custom transform (uppercase/lowercase) */
+  .cdx-transform {
+    font-variant: small-caps;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    #editor-div {
+      padding: 1rem;
+    }
+  }
+  

@@ -1,0 +1,31 @@
+.sidebar-container{
+    width: 150px;
+    height: 100vh;
+    background-color: whitesmoke;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar-header{
+    padding-left: 10px;
+}
+
+.menu-item-container{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.menu-item{
+    display: flex;
+    justify-content: start;
+    column-gap: 5px;
+    align-items: center;
+}
+
+.menu-text p{
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #5c5c5c;
+}

@@ -1,0 +1,10 @@
+.lable-content{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.lable-content p{
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+}

@@ -1,0 +1,64 @@
+.editor-button-groups{
+    padding: 1vw;
+    display: flex;
+    justify-content: end;
+    column-gap: 10px;
+    position: fixed;
+    width: calc(100% - 2vw); 
+    top: 0%;
+    z-index: 10;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+                rgba(17, 17, 26, 0.1) 0px 8px 24px,
+                rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    left: 0;
+    background-color: whitesmoke;
+}
+
+.editor-button-groups button{
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: whitesmoke;
+    border: none;
+    outline: none;
+}
+
+.editor-button-groups button:hover{
+    border-radius: 10px;
+}
+
+
+.editor-button-groups button:nth-child(1){
+    background-color: rgb(76, 145, 201);
+}
+
+.editor-button-groups button:nth-child(2){
+    background-color: rgb(43, 136, 64);
+}
+
+.blog-container{
+    /* display: flex; */
+
+}
+.blog-divider{
+    width: 2px;
+    height: 100vh;
+    margin: 0px 5px;
+    /* left: calc(100vw*0.75);
+    position: fixed; */
+    background-color: rgb(63, 63, 63);
+
+}
+
+.blog-editor-container{
+    width: 90%;
+    margin: 90px auto 10px auto;
+}
+
+.footer{
+    margin-top: 10px;
+    padding: 10px 0px;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+}
