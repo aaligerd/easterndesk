@@ -1,0 +1,21 @@
+.logout-btn-container{
+    display: flex;
+    justify-content: end;
+    padding: 5px;
+}
+
+.logout-btn-container button{
+    padding: 5px 10px;
+    background: #c3bfbf;
+    border: none;
+    font-size: medium;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.logout-btn-container button:hover{
+    border-radius: 5px;
+    background-color: #9d9d9d;
+    cursor: pointer;
+}

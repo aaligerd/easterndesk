@@ -4,6 +4,7 @@ import pageReducer from './pageRenders/pageSlice';
 import dashboardReducers from './dashboardButton/dashboardSlice';
 import storySliceReducers from './stories/storySlice';
 import editorblogReducer from './editableBlog/editableBlog';
+import userReducer from './user/userSlice';
 
 
 export default configureStore({
@@ -12,6 +13,7 @@ export default configureStore({
     pageRenders:pageReducer,
     dashboardTab:dashboardReducers,
     stories:storySliceReducers,
+    user:userReducer,
     editableblog:editorblogReducer
   }
 })

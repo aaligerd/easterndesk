@@ -1,17 +1,23 @@
-import Sidebar from '../components/Sidebar/Sidebar'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Dashboard from './Dashboard'
 import Image from './Image'
 import Video from './Video'
+import Userlogin from './Userlogin'
+import UserHomepage from './UserHomepage'
+import { useEffect } from 'react'
+import { updateIsLogin } from '../redux/user/userSlice'
 function HomePage() {
-  const {component}=useSelector((state)=>state.pageRenders)
-  console.log(component)
+  const {islogin}=useSelector((state)=>state.user);
+  const dispatch=useDispatch();
+  useEffect(()=>{
+    let islogin=window.localStorage.getItem('islogin');
+    if(islogin){
+      dispatch(updateIsLogin(true));
+    }
+  })
   return (
     <>
-    <Sidebar/>
-    {component ==="dashboard" && <Dashboard/>}
-    {component ==="allimages" && <Image/>}
-    {component ==="allvideos" && <Video/>}
+    {islogin===true?<UserHomepage/>:<Userlogin/>}
     </>
   )
 }
