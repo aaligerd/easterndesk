@@ -1,12 +1,32 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Lable from './Lable';
 import '../style/BlogInput.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { addEditableLables, removeEditableLables, updateEditableCategory, updateEditableSeoDescription, updateEditableSeoHeadline, updateEditableSeoKeywords, updateEditableSeoTitle, updateEditableSeoUrl, updateEditableSeoURLSlug, updateEditableSubategory, updateEditableThumbnail, updtaeEditableTitle } from '../redux/editableBlog/editableBlog.js';
 function UpdateBlogInputs() {
-    const { title,category, subcategory, lables, seo_title, seo_desc, seo_keywords, seo_url, thumbnail,seo_headline,seo_url_slug } = useSelector((state) => state.editableblog);
+    const { title, category, subcategory, lables, seo_title, seo_desc, seo_keywords, seo_url, thumbnail, seo_headline, seo_url_slug } = useSelector((state) => state.editableblog);
     const dispatch = useDispatch();
     const lableInputRef = useRef();
+    const [caregories, setCategories] = React.useState([]);
+    const [subcaregories, setSubcategories] = React.useState([]);
+
+    useEffect(() => {
+        const urlCategory = `${process.env.REACT_APP_BASE_URL}/story/get/list/category/`;
+        const urlSubcategory = `${process.env.REACT_APP_BASE_URL}/story/get/list/subcategory/`;
+        const fetchCategories = async () => {
+            const res = await fetch(urlCategory);
+            const resData = await res.json();
+            console.log(resData);
+            setCategories(resData.data);
+        }
+        const fetchSubategories = async () => {
+            const res =await fetch(urlSubcategory);
+            const resData = await res.json();
+            setSubcategories(resData.data);
+        }
+        fetchCategories();
+        fetchSubategories();
+    }, [])
 
     const addLableInLableList = () => {
         const currentLabelInput = lableInputRef.current.value.trim();
@@ -30,28 +50,32 @@ function UpdateBlogInputs() {
                     <label htmlFor="category">Category</label>
                     <select name="category" id="category" value={category} onChange={(e) => { dispatch(updateEditableCategory(e.target.value)) }}>
                         <option value="">Select Category</option>
-                        <option value='15001'>Sports</option>
+                        {caregories.map((category, index) => (
+                            <option key={index} value={category.category_id}>{category.name.substr(0,1).toUpperCase()+category.name.substr(1)}</option>
+                        ))}
                     </select>
                 </div>
                 <div className='input-field-container'>
                     <label htmlFor="subcategory">Subcategory</label>
                     <select name="subcategory" id="subcategory" value={subcategory} onChange={(e) => { dispatch(updateEditableSubategory(e.target.value)) }}>
                         <option value="">Select Subcategory</option>
-                        <option value='16001'>Cricket</option>
+                        {subcaregories.map((subcategory,index) => (
+                    <option key={index} value={subcategory.subcategory_id}>{subcategory.name.substr(0,1).toUpperCase()+subcategory.name.substr(1)}</option>
+                ))}
                     </select>
                 </div>
                 <div className='input-field-container' id='lable-section'>
                     <div>
-                    <label htmlFor="lables">Lables</label>
-                    <input type="text" list='lable-list' ref={lableInputRef} />
-                    <datalist id='lable-list'>
-                        <option>Lable 1</option>
-                        <option>Lable 2</option>
-                        <option>Lable 3</option>
-                        <option>Lable 4</option>
-                        <option>Lable 5</option>
-                    </datalist>
-                    <button onClick={addLableInLableList}>Add Lable</button>
+                        <label htmlFor="lables">Lables</label>
+                        <input type="text" list='lable-list' ref={lableInputRef} />
+                        <datalist id='lable-list'>
+                            <option>Lable 1</option>
+                            <option>Lable 2</option>
+                            <option>Lable 3</option>
+                            <option>Lable 4</option>
+                            <option>Lable 5</option>
+                        </datalist>
+                        <button onClick={addLableInLableList}>Add Lable</button>
                     </div>
                     <div className='lable-container'>
                         {lables && lables.map((ele, index) => (
@@ -80,7 +104,7 @@ function UpdateBlogInputs() {
                 </div>
                 <div className='input-field-container'>
                     <label htmlFor="seo-url">SEO URL</label>
-                    <input type="text" value={seo_url} id='seo-url' onChange={(e) => { dispatch(updateEditableSeoUrl(e.target.value));dispatch(updateEditableSeoURLSlug(e.target.value)) }} />
+                    <input type="text" value={seo_url} id='seo-url' onChange={(e) => { dispatch(updateEditableSeoUrl(e.target.value)); dispatch(updateEditableSeoURLSlug(e.target.value)) }} />
                 </div>
                 <div className='input-field-container'>
                     <p>{`${process.env.REACT_APP_CONSUMER_URL}/category/subcategory/${seo_url_slug}`}</p>
@@ -90,6 +114,11 @@ function UpdateBlogInputs() {
                     <input type="text" value={thumbnail} id='thumbnail' onChange={(e) => { dispatch(updateEditableThumbnail(e.target.value)) }} />
                 </div>
             </div>
+            <datalist id='category-list'>
+                {caregories.map((category, index) => (
+                    <option key={index} value={category.id}>{category.name}</option>
+                ))}
+            </datalist>
         </div>
     )
 }

@@ -1,68 +1,66 @@
 import React, { memo, useEffect, useRef } from 'react';
-import '../style/Editor.css';
 import EditorJS from '@editorjs/editorjs';
+
 import Header from '@editorjs/header';
 import Table from '@editorjs/table';
-import EditorjsList from '@editorjs/list';
-import Paragraph from '@editorjs/paragraph';
+import List from '@editorjs/list';
 import Quote from '@editorjs/quote';
 import Warning from '@editorjs/warning';
 import Embed from '@editorjs/embed';
 import Underline from '@editorjs/underline';
-import AlignmentTuneTool from 'editorjs-text-alignment-blocktune';
-import Strikethrough from '@sotaproject/strikethrough';
-import TextTransformTool from './TextTransformTool';
 import Marker from '@editorjs/marker';
 import Delimiter from '@editorjs/delimiter';
+import AlignmentTuneTool from 'editorjs-text-alignment-blocktune';
+import Strikethrough from '@sotaproject/strikethrough';
+
+import TextTransformTool from './TextTransformTool';
 import CustomeImage from './EditorTools/BlockTools/CustomeSimpleImage';
+import '../style/Editor.css';
+
 import { useSelector } from 'react-redux';
 
-function UpdateBlogEditor({ editorRef, loadEditableContent }) {
-  const { content} = useSelector((state) => state.editableblog);
+const UpdateBlogEditor = ({ editorRef }) => {
+  const { content } = useSelector((state) => state.editableblog);
   const isEditorReady = useRef(false);
 
   useEffect(() => {
-    if (!editorRef.current) {
+    // Wait until content is loaded before initializing
+    if (!editorRef.current && content?.blocks?.length > 0) {
       const editor = new EditorJS({
-        holder: "editor-div",
-        onReady: () => {
-          console.log('Editor.js is ready!');
-          isEditorReady.current = true;
-          if (content?.blocks?.length > 0) {
-            console.log("Content",content);
-            // editor.render(content);
-          }
-        },
+        holder: 'editor-div',
         autofocus: true,
-        placeholder: "Write a post...",
+        placeholder: 'Write a post...',
+        data: content,
+        onReady: () => {
+          console.log('EditorJS Ready');
+          isEditorReady.current = true;
+        },
         tools: {
           header: {
             class: Header,
-            placeholder: "Enter Heading",
-            levels: [1, 2, 3, 4, 5, 6],
-            defaultLevel: 1,
             inlineToolbar: true,
-            tunes: ['alignment']
+            placeholder: 'Enter Heading',
+            levels: [1, 2, 3],
+            defaultLevel: 1,
+            tunes: ['alignment'],
           },
           image: {
             class: CustomeImage,
             config: {
               endpoints: {
-                byFile: 'http://localhost:8008/api/v1/uploadFile',
-                byUrl: 'http://localhost:8008/fetchUrl',
-              }
-            }
+                byFile: `${process.env.REACT_APP_BASE_URL}/uploadFile`,
+                byUrl: `${process.env.REACT_APP_BASE_URL}/fetchUrl`,
+              },
+            },
           },
           table: {
             class: Table,
-            withHeadings: true
+            withHeadings: true,
           },
           list: {
-            class: EditorjsList,
+            class: List,
             inlineToolbar: true,
-            config: {
-              defaultStyle: 'unordered'
-            },
+            config: { defaultStyle: 'unordered' },
           },
           quote: {
             class: Quote,
@@ -71,7 +69,7 @@ function UpdateBlogEditor({ editorRef, loadEditableContent }) {
             shortcut: 'CTRL+SHIFT+O',
             config: {
               quotePlaceholder: 'Enter a quote',
-              captionPlaceholder: "Quote's author",
+              captionPlaceholder: "Author",
             },
           },
           embed: Embed,
@@ -80,48 +78,33 @@ function UpdateBlogEditor({ editorRef, loadEditableContent }) {
           alignment: {
             class: AlignmentTuneTool,
             config: {
-              default: "left",
+              default: 'left',
               blocks: {
                 header: 'center',
                 paragraph: 'left',
-              }
-            }
+              },
+            },
           },
-          strikethrough: {
-            class: Strikethrough,
-          },
-          textTransform: {
-            class: TextTransformTool,
-          },
-          marker: {
-            class: Marker
-          },
-          delimiter: {
-            class: Delimiter
-          }
+          strikethrough: Strikethrough,
+          textTransform: TextTransformTool,
+          marker: Marker,
+          delimiter: Delimiter,
         },
-        data: content,
       });
+
       editorRef.current = editor;
     }
+
+    return () => {
+      if (editorRef.current && editorRef.current.destroy) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+        isEditorReady.current = false;
+      }
+    };
   }, [content, editorRef]);
 
-  // Load content if editor is ready and content is updated
-  useEffect(() => {
-    if (
-      isEditorReady.current &&
-      editorRef.current &&
-      content?.blocks?.length > 0
-    ) {
-      editorRef.current.render(content);
-    }
-  }, [content, editorRef]);
-
-  return (
-    <div className='editor-container'>
-      <div id="editor-div"></div>
-    </div>
-  );
-}
+  return <div id="editor-div" className="editor-container" />;
+};
 
 export default memo(UpdateBlogEditor);

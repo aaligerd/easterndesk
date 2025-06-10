@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react'
 import '../style/UpdateBlog.css';
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateContent, updatecreatedBy, updatecreatedDate, updateStatus } from '../redux/blog/blogSlice';
 import { getCurrentDatetimeString } from '../utils/GetDateStructure';
-import { updateEditableBlogId, updateEditableCategory, updateEditableContent, updateEditableLables, updateEditableSeoDescription, updateEditableSeoHeadline, updateEditableSeoKeywords, updateEditableSeoTitle, updateEditableSeoUrl, updateEditableSeoURLSlug, updateEditableStatus, updateEditableSubategory, updateEditableThumbnail, updateEditableUpdatedBy, updateEditableUpdatedDate, updtaeEditableTitle } from '../redux/editableBlog/editableBlog';
+import { updateEditableBlogId, updateEditableCategory, updateEditableContent, updateEditableLables, updateEditableSeoDescription, updateEditableSeoHeadline, updateEditableSeoKeywords, updateEditableSeoTitle, updateEditableSeoUrl, updateEditableSeoURLSlug, updateEditableStatus, updateEditableSubategory, updateEditableThumbnail, updateEditableUpdateContent, updateEditableUpdatedBy, updateEditableUpdatedDate, updtaeEditableTitle } from '../redux/editableBlog/editableBlog';
 import UpdateBlogEditor from '../components/UpdateBlogEditor';
 import UpdateBlogInputs from '../components/UpdateblogInputs';
 
 import { GridLoader } from 'react-spinners';
+import { updatecreatedBy, updatecreatedDate, updateStatus } from '../redux/blog/blogSlice';
 function UpdateBlog() {
-  
+
   const editorRef = React.useRef();
-  const { status } = useSelector((state) => state.editableblog);
+  const { status, content } = useSelector((state) => state.editableblog);
   const editorBlogData = useSelector((state) => state.editableblog);
   const dispatch = useDispatch();
   const { blog_id } = useParams();
-  const[loaderVisible, setLoaderVisible] = useState(false);
+  const [loaderVisible, setLoaderVisible] = useState(false);
 
   console.log(blog_id);
 
@@ -32,12 +32,7 @@ function UpdateBlog() {
           alert(resData.msg.toUpperCase());
           return;
         }
-        console.log(JSON.parse(resData.data.content));
-        dispatch(updateEditableContent(JSON.parse(resData.data.content)));
         dispatch(updtaeEditableTitle(resData.data.title));
-        dispatch(updatecreatedBy(resData.data.created_by));
-        dispatch(updatecreatedDate(resData.data.created_date));
-        dispatch(updateStatus(resData.data.status));
         dispatch(updateEditableLables(resData.data.lables.split(',')));
         dispatch(updateEditableCategory(resData.data.category_id));
         dispatch(updateEditableSubategory(resData.data.subcategory_id));
@@ -50,48 +45,82 @@ function UpdateBlog() {
         dispatch(updateEditableThumbnail(resData.data.thumbnail_url));
         dispatch(updateEditableStatus(resData.data.status));
         dispatch(updateEditableBlogId(blog_id));
+        let contentData = JSON.parse(resData.data.content);
+        dispatch(updateEditableContent(contentData));
       } catch (error) {
         console.log(error);
       }
     }
     fetchBlogData();
-  }, [blog_id, dispatch]);
+  }, [blog_id]);
 
-  let saveBlog = async () => {
-    const editorState = await editorRef.current.save();
-    
-    dispatch(updateEditableUpdatedBy("ED10002"));
-    dispatch(updateEditableUpdatedDate(getCurrentDatetimeString()));
-    dispatch(updateEditableContent(JSON.stringify(editorState)));
-    setLoaderVisible(true);
-    setTimeout(() => {
-      const headers = new Headers();
-      headers.append("Content-type", 'application/json')
-      const reqOptions = { method: "POST", headers, body: JSON.stringify(editorBlogData) }
-      const saveData = async () => {
-        try {
-          const res = await fetch(`${process.env.REACT_APP_BASE_URL}/story/save`, reqOptions);
-          const resData = await res.json();
-          if (res.status === 400) {
-            alert(resData.msg.toUpperCase());
-            return;
-          }
-          alert("Post Save");
+ let saveBlog = async () => {
+  const editorState = await editorRef.current.save();
+  const updatedBy = "ED10002";
+  const updatedDate = getCurrentDatetimeString();
+  const updatedContent = JSON.stringify(editorState);
 
-        } catch (error) {
-          console.log(error)
-        }
+  setLoaderVisible(true);
+
+  setTimeout(async () => {
+    const updatedData = {
+      ...editorBlogData,
+      updated_by: updatedBy,
+      updated_at: updatedDate,
+      updated_content: updatedContent,
+    };
+
+    console.log("Final Payload", updatedData);
+
+    const headers = new Headers();
+    headers.append("Content-type", 'application/json');
+
+    const reqOptions = {
+      method: "POST",
+      headers,
+      body: JSON.stringify(updatedData),
+    };
+
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/story/save`, reqOptions);
+      const resData = await res.json();
+      if (res.status === 400) {
+        alert(resData.msg.toUpperCase());
+        return;
       }
-      saveData();
+      alert("Post Save");
+    } catch (error) {
+      console.error(error);
+    } finally {
       setLoaderVisible(false);
-    }, 2000)
-  };
+    }
+  }, 2000);
+};
 
-  const publishBlog=async () => {
-    console.log("publishBlog")
+
+  const publishBlog = async () => {
+    const url= `${process.env.REACT_APP_BASE_URL}/story/publish/${blog_id}`;
+    const res= await fetch(url);
+    const resData = await res.json();
+    if (res.status === 400 || res.status === 404 || res.status === 500) {
+      alert(resData.msg.toUpperCase());
+      return;
+    }else {
+      alert("Blog Published Successfully");
+      dispatch(updateEditableStatus("published"));
+    }
   }
-  const unpublishBlog=async () => {
-    console.log("unpublishBlog")
+  const unpublishBlog = async () => {
+    const url= `${process.env.REACT_APP_BASE_URL}/story/unpublish/${blog_id}`;
+    const res= await fetch(url);
+    const resData = await res.json();
+    if (res.status === 400 || res.status === 404 || res.status === 500) {
+      alert(resData.msg.toUpperCase());
+      return;
+    }else {
+      alert("Blog Unpublished Successfully");
+      dispatch(updateEditableStatus("draft"));
+    }
   }
   return (
 
@@ -103,7 +132,9 @@ function UpdateBlog() {
 
       </div>
       <div className='blog-editor-container'>
-        <UpdateBlogEditor editorRef={editorRef} />
+        {content?.blocks?.length > 0 && (
+          <UpdateBlogEditor editorRef={editorRef} />
+        )}
       </div>
       <div className='blog-data-container'>
         <UpdateBlogInputs />
@@ -112,12 +143,12 @@ function UpdateBlog() {
         <h3>EasternDesk</h3>
       </div>
       <div className='loading-container'>
-      <GridLoader
-        color="#767676"
-        loading={loaderVisible}
-        margin={10}
-        size={20}
-      />
+        <GridLoader
+          color="#767676"
+          loading={loaderVisible}
+          margin={10}
+          size={20}
+        />
       </div>
     </div>
 

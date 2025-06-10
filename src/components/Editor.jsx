@@ -18,7 +18,7 @@ import Delimiter from '@editorjs/delimiter';
 
 
 function Editor({editorRef}) {
-    let savedData=window.localStorage.getItem('currentEditorstate');
+    let savedData=null;
     savedData=savedData==null?{}:JSON.parse(savedData);
     useEffect(() => {
 

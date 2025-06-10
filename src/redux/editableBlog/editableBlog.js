@@ -67,10 +67,13 @@ export const editableBlogdSlice = createSlice({
         },
         updateEditableBlogId: (state, action) => {
             state.blog_id = action.payload;
+        },
+        updateEditableUpdateContent: (state, action) => {
+            state.updated_content = action.payload;
         }
   }
 })
 
-export const { updateEditableContent,updateEditableUpdatedDate,updateEditableUpdatedBy,updateEditableCreatedDate,updateEditableCreatedBy, updateEditableStatus,updateEditableLables,updateEditableCategory,updateEditableSeoKeywords,updateEditableSeoDescription,updtaeEditableTitle,updateEditableSubategory,updateEditableSeoTitle,updateEditableSeoHeadline,updateEditableSeoUrl,updateEditableThumbnail,addEditableLables,removeEditableLables,updateEditableSeoURLSlug,updateEditableBlogId} = editableBlogdSlice.actions
+export const { updateEditableContent,updateEditableUpdatedDate,updateEditableUpdatedBy,updateEditableCreatedDate,updateEditableCreatedBy, updateEditableStatus,updateEditableLables,updateEditableCategory,updateEditableSeoKeywords,updateEditableSeoDescription,updtaeEditableTitle,updateEditableSubategory,updateEditableSeoTitle,updateEditableSeoHeadline,updateEditableSeoUrl,updateEditableThumbnail,addEditableLables,removeEditableLables,updateEditableSeoURLSlug,updateEditableBlogId,updateEditableUpdateContent} = editableBlogdSlice.actions
 
 export default editableBlogdSlice.reducer

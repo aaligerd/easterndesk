@@ -1,4 +1,5 @@
 const blankBloglogStructure={
+    "blog_id":-1,
     "title":"",
     "content":"",
     "created_by":"",
@@ -15,7 +16,7 @@ const blankBloglogStructure={
     "seo_url":"",
     "seo_url_slug":"",
     "thumbnail":"",
-    "status":"",
+    "status":"draft",
     "published_at":"",
     "updated_by":"",
     "updated_at":""

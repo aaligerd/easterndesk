@@ -64,10 +64,14 @@ export const blogSlice = createSlice({
         },
         updateUpdatedAt: (state, action) => {
             state.updated_at = action.payload;
+        },
+        updateBlogId: (state, action) => {
+            console.log(action.payload)
+            state.blog_id = action.payload;
         }
     }
 })
 
-export const { updateTitle,updateContent, updateCategory, updatecreatedBy, updatecreatedDate, updateSubcategory, addLables, removeLables, updateSeoTitle, updateSeoDesc, updateSeoKeyWords, updateSeoURL, updateSeoThumbnail,updateUpdatedAt,updateUpdatedBy,updatePublisedAt,updateStatus,updateSeoHeadline,updateSeoURLSlug } = blogSlice.actions
+export const { updateTitle,updateContent, updateCategory, updatecreatedBy, updatecreatedDate, updateSubcategory, addLables, removeLables, updateSeoTitle, updateSeoDesc, updateSeoKeyWords, updateSeoURL, updateSeoThumbnail,updateUpdatedAt,updateUpdatedBy,updatePublisedAt,updateStatus,updateSeoHeadline,updateSeoURLSlug,updateBlogId} = blogSlice.actions
 
 export default blogSlice.reducer

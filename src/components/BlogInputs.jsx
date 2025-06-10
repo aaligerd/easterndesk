@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Lable from './Lable';
 import '../style/BlogInput.css'
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +7,27 @@ function BlogInputs() {
     const { title,category, subcategory, lables, seo_title, seo_desc, seo_keywords, seo_url, thumbnail,seo_headline,seo_url_slug } = useSelector((state) => state.blog);
     const dispatch = useDispatch();
     const lableInputRef = useRef();
+    const [caregories, setCategories] = React.useState([]);
+    const [subcaregories, setSubcategories] = React.useState([]);
+
+    useEffect(() => {
+            const urlCategory = `${process.env.REACT_APP_BASE_URL}/story/get/list/category/`;
+            const urlSubcategory = `${process.env.REACT_APP_BASE_URL}/story/get/list/subcategory/`;
+            const fetchCategories = async () => {
+                const res = await fetch(urlCategory);
+                const resData = await res.json();
+                console.log(resData);
+                setCategories(resData.data);
+            }
+            const fetchSubategories = async () => {
+                const res =await fetch(urlSubcategory);
+                const resData = await res.json();
+                setSubcategories(resData.data);
+            }
+            fetchCategories();
+            fetchSubategories();
+        }, [])
+
 
     const addLableInLableList = () => {
         const currentLabelInput = lableInputRef.current.value.trim();
@@ -30,20 +51,18 @@ function BlogInputs() {
                     <label htmlFor="category">Category</label>
                     <select name="category" id="category" value={category} onChange={(e) => { dispatch(updateCategory(e.target.value)) }}>
                         <option value="">Select Subcategory</option>
-                        <option value='genral election'>Genral Election</option>
-                        <option value='state election'>State Election</option>
-                        <option value='cricket'>Cricket</option>
-                        <option value='football'>Football</option>
+                        {caregories.map((category, index) => (
+                            <option key={index} value={category.category_id}>{category.name.substr(0,1).toUpperCase()+category.name.substr(1)}</option>
+                        ))}
                     </select>
                 </div>
                 <div className='input-field-container'>
                     <label htmlFor="subcategory">Subcategory</label>
                     <select name="subcategory" id="subcategory" value={subcategory} onChange={(e) => { dispatch(updateSubcategory(e.target.value)) }}>
                         <option value="">Select Subcategory</option>
-                        <option value='genral election'>Genral Election</option>
-                        <option value='state election'>State Election</option>
-                        <option value='cricket'>Cricket</option>
-                        <option value='football'>Football</option>
+                        {subcaregories.map((subcategory,index) => (
+                    <option key={index} value={subcategory.subcategory_id}>{subcategory.name.substr(0,1).toUpperCase()+subcategory.name.substr(1)}</option>
+                ))}
                     </select>
                 </div>
                 <div className='input-field-container' id='lable-section'>

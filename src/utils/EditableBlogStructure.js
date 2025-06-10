@@ -2,6 +2,7 @@ const editableBlankBloglogStructure={
     "blog_id":"",
     "title":"",
     "content":"",
+    "updated_content":"",
     "created_by":"",
     "created_date":"",
     "category":"",
