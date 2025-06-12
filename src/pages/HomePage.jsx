@@ -5,14 +5,18 @@ import Video from './Video'
 import Userlogin from './Userlogin'
 import UserHomepage from './UserHomepage'
 import { useEffect } from 'react'
-import { updateIsLogin } from '../redux/user/userSlice'
+import { updateIsLogin, updateUserId, updateUsername } from '../redux/user/userSlice'
 function HomePage() {
   const {islogin}=useSelector((state)=>state.user);
   const dispatch=useDispatch();
   useEffect(()=>{
     let islogin=window.localStorage.getItem('islogin');
+    let userid=window.localStorage.getItem('userid')
+    let username=window.localStorage.getItem('username');
     if(islogin){
       dispatch(updateIsLogin(true));
+      dispatch(updateUsername(username));
+      dispatch(updateUserId(userid));
     }
   })
   return (
