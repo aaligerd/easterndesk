@@ -11,6 +11,7 @@ import { GridLoader } from 'react-spinners';
 import { updatecreatedBy, updatecreatedDate, updateStatus } from '../redux/blog/blogSlice';
 function UpdateBlog() {
 
+  
   const editorRef = React.useRef();
   const { status, content } = useSelector((state) => state.editableblog);
   const editorBlogData = useSelector((state) => state.editableblog);
@@ -137,7 +138,7 @@ function UpdateBlog() {
         )}
       </div>
       <div className='blog-data-container'>
-        <UpdateBlogInputs />
+        <UpdateBlogInputs loaderSetter={setLoaderVisible} />
       </div>
       <div className='footer'>
         <h3>EasternDesk</h3>

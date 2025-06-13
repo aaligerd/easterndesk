@@ -102,3 +102,24 @@
     user-select: none;
     overflow-y: scroll;
 }
+
+.thumbnail-image-cintainer{
+    width: 70%;
+    margin: auto;
+}
+
+.thumbnail-image-cintainer img{
+    width: 100%;
+}
+
+.file-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    row-gap: 20px;
+}
+
+.file-container input[type='file']{
+    border: none;
+    padding: 0;
+}
