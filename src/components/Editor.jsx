@@ -46,8 +46,7 @@ function Editor({editorRef}) {
                         class: ImageTool,
                         config: {
                             endpoints: {
-                                byFile: 'http://localhost:8008/api/v1/uploadFile', // Your backend file uploader endpoint
-                                byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+                                byFile: `${process.env.REACT_APP_BASE_URL}/uploadFile`, // Your backend file uploader endpoint
                             }
                         }
                     },

@@ -49,7 +49,6 @@ const UpdateBlogEditor = ({ editorRef }) => {
             config: {
               endpoints: {
                 byFile: `${process.env.REACT_APP_BASE_URL}/uploadFile`,
-                byUrl: `${process.env.REACT_APP_BASE_URL}/fetchUrl`,
               },
             },
           },
