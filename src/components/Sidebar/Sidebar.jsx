@@ -5,7 +5,7 @@ import { updatePageRenders } from '../../redux/pageRenders/pageSlice';
 
 
 function Sidebar() {
-    const{username,islogin}=useSelector((state)=>state.user);
+    const{username,islogin,userid}=useSelector((state)=>state.activeUser);
     const dispatch=useDispatch();
     const openNewBlogPage=()=>{
         window.open('/new/story','blank');
@@ -16,7 +16,7 @@ function Sidebar() {
             <div><h3>EasternDesk</h3></div>
         </div>
         <div className='sidebar-header'>
-            <h4>{`Hi ${username}`}</h4>
+            <h4>{`Hi ${username}:${userid}`}</h4>
         </div>
         <div className='menu-item-container'> 
             {menuitems?.map((ele,index)=>{

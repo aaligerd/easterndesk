@@ -15,8 +15,11 @@ import {
   updateTitle,
   updateSeoHeadline,
   updateSeoURLSlug,
+  updateByLine,
+  updateEditedBy,
+  updatePublishedBy,
 } from "../redux/blog/blogSlice.js";
-function BlogInputs({loaderSetter}) {
+function BlogInputs({ loaderSetter }) {
   const imagesrc = useRef();
   const imageFile = useRef();
   const {
@@ -31,6 +34,9 @@ function BlogInputs({loaderSetter}) {
     thumbnail,
     seo_headline,
     seo_url_slug,
+    edited_by,
+    published_by,
+    by_line,
   } = useSelector((state) => state.blog);
   const dispatch = useDispatch();
   const lableInputRef = useRef();
@@ -114,18 +120,17 @@ function BlogInputs({loaderSetter}) {
         method: "POST",
         body: formData,
       });
-      const response=await res.json();
+      const response = await res.json();
       dispatch(updateSeoThumbnail(response.file.url));
     } catch (error) {
-        console.log(error)
-    }
-    finally{
-        loaderSetter(false);
+      console.log(error);
+    } finally {
+      loaderSetter(false);
     }
   };
-  useEffect(()=>{
-    imagesrc.current.src=thumbnail;
-  },[thumbnail])
+  useEffect(() => {
+    imagesrc.current.src = thumbnail;
+  }, [thumbnail]);
 
   return (
     <div className="form-container">
@@ -206,6 +211,39 @@ function BlogInputs({loaderSetter}) {
                   index_no={index}
                 />
               ))}
+          </div>
+          <div className="input-field-container">
+            <label htmlFor="by_line">By Line</label>
+            <input
+              type="text"
+              value={by_line}
+              id="by_line"
+              onChange={(e) => {
+                dispatch(updateByLine(e.target.value));
+              }}
+            />
+          </div>
+          <div className="input-field-container">
+            <label htmlFor="edited_by">Edited By</label>
+            <input
+              type="text"
+              value={edited_by}
+              id="edited_by"
+              onChange={(e) => {
+                dispatch(updateEditedBy(e.target.value));
+              }}
+            />
+          </div>
+          <div className="input-field-container">
+            <label htmlFor="published_by">Published By</label>
+            <input
+              type="text"
+              value={published_by}
+              id="updatePublishedBy"
+              onChange={(e) => {
+                dispatch(updatePublishedBy(e.target.value));
+              }}
+            />
           </div>
         </div>
       </div>

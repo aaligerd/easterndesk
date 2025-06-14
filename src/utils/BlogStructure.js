@@ -19,7 +19,10 @@ const blankBloglogStructure={
     "status":"draft",
     "published_at":"",
     "updated_by":"",
-    "updated_at":""
+    "updated_at":"",
+    "by_line":"",
+    "published_by":"",
+    "edited_by":""
 
 }
 export default blankBloglogStructure;

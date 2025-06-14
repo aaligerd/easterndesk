@@ -18,7 +18,10 @@ const editableBlankBloglogStructure={
     "status":"",
     "published_at":"",
     "updated_by":"",
-    "updated_at":""
+    "updated_at":"",
+    "by_line":"",
+    "edited_by":"",
+    "published_by":""
 
 }
 export default editableBlankBloglogStructure;

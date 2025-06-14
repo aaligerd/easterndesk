@@ -6,39 +6,52 @@ import {
   updateUserId,
   updateUsername,
 } from "../redux/user/userSlice";
-import Header from "@editorjs/header";
 import { GridLoader } from "react-spinners";
 function Userlogin() {
   const [loaderVisible, setLoaderVisible] = useState(false);
   const dispatch = useDispatch();
-  const userLogin = async(e) => {
+  const userLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formObjects = Object.fromEntries(formData);
     console.log(formObjects);
-    const headers=new Headers();
-    headers.append('Content-type','application/json');
-    const url=`${process.env.REACT_APP_BASE_URL}/auth/login`;
+    const headers = new Headers();
+    headers.append("Content-type", "application/json");
+    const url = `${process.env.REACT_APP_BASE_URL}/auth/login`;
     setLoaderVisible(true);
-    try{
-      const reqOption={method:"POST",headers,body:JSON.stringify(formObjects)};
-      const res=await fetch(url,reqOption);
-      const data=await res.json();
-      if(res.status===200){
-        window.localStorage.setItem("userid", formObjects.userid);
+    try {
+      const reqOption = {
+        method: "POST",
+        headers,
+        body: JSON.stringify(formObjects),
+      };
+      const res = await fetch(url, reqOption);
+      const data = await res.json();
+      if (res.status === 200 && data.data && data.data.length > 0) {
+        // window.localStorage.setItem("userid", formObjects.userid);
+        // window.localStorage.setItem("islogin", true);
+        // window.localStorage.setItem("username", data.data[0]['editor_name']);
+        // dispatch(updateIsLogin(true));
+        // dispatch(updateUsername(data.data[0]['editor_name']));
+        // dispatch(updateUserId(formObjects.userid));
+
+        const userIdFromBackend = data.data[0]["editor_id"]; 
+        const userNameFromBackend = data.data[0]["editor_name"];
+
+        window.localStorage.setItem("userid", userIdFromBackend);
         window.localStorage.setItem("islogin", true);
-        window.localStorage.setItem("username", data.data[0]['editor_name']);
+        window.localStorage.setItem("username", userNameFromBackend);
+
         dispatch(updateIsLogin(true));
-        dispatch(updateUsername(data.data[0]['editor_name']));
-        dispatch(updateUserId(formObjects.userid));
-      }else{
+        dispatch(updateUsername(userNameFromBackend));
+        dispatch(updateUserId(userIdFromBackend));
+      } else {
         alert(data.msg);
         return;
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
-    }
-    finally{
+    } finally {
       setLoaderVisible(false);
     }
   };
@@ -73,7 +86,7 @@ function Userlogin() {
         />
         <button>Log In</button>
       </form>
-      <div className='loading-container'>
+      <div className="loading-container">
         <GridLoader
           color="#767676"
           loading={loaderVisible}

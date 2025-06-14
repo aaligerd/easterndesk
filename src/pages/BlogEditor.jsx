@@ -12,13 +12,14 @@ function BlogEditor() {
   const lodingcontainer=useRef();
   const [loaderVisible, setLoaderVisible] = useState(false);
   const { content, blog_id,status } = useSelector((state) => state.blog);
-  const { userid } = useSelector((state) => state.user);
+  const { userid } = useSelector((state) => state.activeUser);
   const blogData = useSelector((state) => state.blog);
   const dispatch = useDispatch();
 
   let saveBlogAsDraft = async () => {
     
     const editorState = await editorRef.current.save();
+    let userid=window.localStorage.getItem('userid')
     setLoaderVisible(true)
     if (blog_id === -1) {
       dispatch(updateStatus("draft"));
@@ -32,7 +33,9 @@ function BlogEditor() {
           created_by:userid ,
           created_date: getCurrentDatetimeString(),
         };
+        
         const reqOptions = { method: "POST", headers, body: JSON.stringify(payload) }
+        console.log(reqOptions);
         const saveData = async () => {
           try {
             const res = await fetch(`${process.env.REACT_APP_BASE_URL}/story/create`, reqOptions);

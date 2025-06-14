@@ -3,7 +3,7 @@ import '../style/UpdateBlog.css';
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentDatetimeString } from '../utils/GetDateStructure';
-import { updateEditableBlogId, updateEditableCategory, updateEditableContent, updateEditableLables, updateEditableSeoDescription, updateEditableSeoHeadline, updateEditableSeoKeywords, updateEditableSeoTitle, updateEditableSeoUrl, updateEditableSeoURLSlug, updateEditableStatus, updateEditableSubategory, updateEditableThumbnail, updateEditableUpdateContent, updateEditableUpdatedBy, updateEditableUpdatedDate, updtaeEditableTitle } from '../redux/editableBlog/editableBlog';
+import { updateEditableBlogId, updateEditableByLine, updateEditableCategory, updateEditableContent, updateEditableEditedBy, updateEditableLables, updateEditablePublishedBy, updateEditableSeoDescription, updateEditableSeoHeadline, updateEditableSeoKeywords, updateEditableSeoTitle, updateEditableSeoUrl, updateEditableSeoURLSlug, updateEditableStatus, updateEditableSubategory, updateEditableThumbnail, updateEditableUpdateContent, updateEditableUpdatedBy, updateEditableUpdatedDate, updtaeEditableTitle } from '../redux/editableBlog/editableBlog';
 import UpdateBlogEditor from '../components/UpdateBlogEditor';
 import UpdateBlogInputs from '../components/UpdateblogInputs';
 
@@ -46,6 +46,9 @@ function UpdateBlog() {
         dispatch(updateEditableThumbnail(resData.data.thumbnail_url));
         dispatch(updateEditableStatus(resData.data.status));
         dispatch(updateEditableBlogId(blog_id));
+        dispatch(updateEditableByLine(resData.data.by_line));
+        dispatch(updateEditableEditedBy(resData.data.edited_by));
+        dispatch(updateEditablePublishedBy(resData.data.published_by));
         let contentData = JSON.parse(resData.data.content);
         dispatch(updateEditableContent(contentData));
       } catch (error) {
@@ -57,7 +60,7 @@ function UpdateBlog() {
 
  let saveBlog = async () => {
   const editorState = await editorRef.current.save();
-  const updatedBy = "ED10002";
+  const updatedBy = window.localStorage.getItem('userid');
   const updatedDate = getCurrentDatetimeString();
   const updatedContent = JSON.stringify(editorState);
 

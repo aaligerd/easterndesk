@@ -5,7 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   addEditableLables,
   removeEditableLables,
+  updateEditableByLine,
   updateEditableCategory,
+  updateEditableEditedBy,
+  updateEditablePublishedBy,
   updateEditableSeoDescription,
   updateEditableSeoHeadline,
   updateEditableSeoKeywords,
@@ -33,6 +36,7 @@ function UpdateBlogInputs({ loaderSetter }) {
     thumbnail,
     seo_headline,
     seo_url_slug,
+    by_line,edited_by,published_by
   } = useSelector((state) => state.editableblog);
   const dispatch = useDispatch();
   const lableInputRef = useRef();
@@ -208,6 +212,39 @@ function UpdateBlogInputs({ loaderSetter }) {
               ))}
           </div>
         </div>
+        <div className="input-field-container">
+                    <label htmlFor="by_line">By Line</label>
+                    <input
+                      type="text"
+                      value={by_line}
+                      id="by_line"
+                      onChange={(e) => {
+                        dispatch(updateEditableByLine(e.target.value));
+                      }}
+                    />
+                  </div>
+                  <div className="input-field-container">
+                    <label htmlFor="edited_by">Edited By</label>
+                    <input
+                      type="text"
+                      value={edited_by}
+                      id="edited_by"
+                      onChange={(e) => {
+                        dispatch(updateEditableEditedBy(e.target.value));
+                      }}
+                    />
+                  </div>
+                  <div className="input-field-container">
+                    <label htmlFor="published_by">Published By</label>
+                    <input
+                      type="text"
+                      value={published_by}
+                      id="updatePublishedBy"
+                      onChange={(e) => {
+                        dispatch(updateEditablePublishedBy(e.target.value));
+                      }}
+                    />
+                  </div>
       </div>
       <div className="blog-seo-section">
         <div className="input-field-container">

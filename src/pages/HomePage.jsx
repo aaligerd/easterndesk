@@ -7,18 +7,19 @@ import UserHomepage from './UserHomepage'
 import { useEffect } from 'react'
 import { updateIsLogin, updateUserId, updateUsername } from '../redux/user/userSlice'
 function HomePage() {
-  const {islogin}=useSelector((state)=>state.user);
+  const {islogin}=useSelector((state)=>state.activeUser);
   const dispatch=useDispatch();
   useEffect(()=>{
     let islogin=window.localStorage.getItem('islogin');
     let userid=window.localStorage.getItem('userid')
     let username=window.localStorage.getItem('username');
-    if(islogin){
+    if(islogin && userid && username){
+      console.log("setting User Data");
       dispatch(updateIsLogin(true));
       dispatch(updateUsername(username));
       dispatch(updateUserId(userid));
     }
-  })
+  },[])
   return (
     <>
     {islogin===true?<UserHomepage/>:<Userlogin/>}

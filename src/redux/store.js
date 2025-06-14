@@ -13,7 +13,7 @@ export default configureStore({
     pageRenders:pageReducer,
     dashboardTab:dashboardReducers,
     stories:storySliceReducers,
-    user:userReducer,
+    activeUser:userReducer,
     editableblog:editorblogReducer
   }
 })
