@@ -90,7 +90,7 @@ function BlogEditor() {
       }, 1000)
     }
   };
-    const publishBlog = async () => {
+  const publishBlog = async () => {
       if(blog_id === -1){
         alert("Please save the blog as draft before publishing.");
         return;
@@ -105,8 +105,8 @@ function BlogEditor() {
         alert("Blog Published Successfully");
         dispatch(updateStatus("published"));
       }
-    }
-    const unpublishBlog = async () => {
+  }
+  const unpublishBlog = async () => {
       if(blog_id === -1){
         alert("Please save the blog as draft before unpublishing.");
         return;
@@ -121,7 +121,7 @@ function BlogEditor() {
         alert("Blog Unpublished Successfully");
         dispatch(updateStatus("draft"));
       }
-    }
+  }
 
   return (
     <div className='blog-container'>
@@ -145,7 +145,7 @@ function BlogEditor() {
                 margin={10}
                 size={20}
               />
-            </div>
+      </div>
     </div>
   )
 }

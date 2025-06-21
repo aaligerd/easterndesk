@@ -1,5 +1,5 @@
 import ImageTool from '@editorjs/image';
 
-export default class CustomeImage extends ImageTool{
+export default class CustomSimpleImage extends ImageTool{
     
 }

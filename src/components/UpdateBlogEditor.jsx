@@ -14,10 +14,11 @@ import AlignmentTuneTool from 'editorjs-text-alignment-blocktune';
 import Strikethrough from '@sotaproject/strikethrough';
 
 import TextTransformTool from './TextTransformTool';
-import CustomeImage from './EditorTools/BlockTools/CustomeSimpleImage';
+import CustomSimpleImage from './EditorTools/BlockTools/CustomeSimpleImage';
 import '../style/Editor.css';
 
 import { useSelector } from 'react-redux';
+import CustomImageTool from './CustomImageTool';
 
 const UpdateBlogEditor = ({ editorRef }) => {
   const { content } = useSelector((state) => state.editableblog);
@@ -45,12 +46,7 @@ const UpdateBlogEditor = ({ editorRef }) => {
             tunes: ['alignment'],
           },
           image: {
-            class: CustomeImage,
-            config: {
-              endpoints: {
-                byFile: `${process.env.REACT_APP_BASE_URL}/uploadFile`,
-              },
-            },
+            class: CustomImageTool
           },
           table: {
             class: Table,

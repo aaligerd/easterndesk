@@ -15,6 +15,7 @@ import Strikethrough from '@sotaproject/strikethrough';
 import TextTransformTool from './TextTransformTool';
 import Marker from '@editorjs/marker';
 import Delimiter from '@editorjs/delimiter';
+import CustomImageTool from './CustomImageTool';
 
 
 function Editor({editorRef}) {
@@ -43,12 +44,7 @@ function Editor({editorRef}) {
                         tunes: ['alignment']
                     },
                     image: {
-                        class: ImageTool,
-                        config: {
-                            endpoints: {
-                                byFile: `${process.env.REACT_APP_BASE_URL}/uploadFile`, // Your backend file uploader endpoint
-                            }
-                        }
+                        class: CustomImageTool
                     },
                     table: {
                         class: Table,
@@ -101,11 +97,11 @@ function Editor({editorRef}) {
             });
             editorRef.current = editor;
         }
-        // return () => {
-        //     if (editorRef.current && editorRef.current.destroy) {
-        //         editorRef.current.destroy();
-        //     }
-        // }
+        return () => {
+            if (editorRef.current && editorRef.current.destroy) {
+                editorRef.current.destroy();
+            }
+        }
     })
 
 
