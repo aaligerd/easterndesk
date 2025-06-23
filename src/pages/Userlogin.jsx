@@ -28,12 +28,6 @@ function Userlogin() {
       const res = await fetch(url, reqOption);
       const data = await res.json();
       if (res.status === 200 && data.data && data.data.length > 0) {
-        // window.localStorage.setItem("userid", formObjects.userid);
-        // window.localStorage.setItem("islogin", true);
-        // window.localStorage.setItem("username", data.data[0]['editor_name']);
-        // dispatch(updateIsLogin(true));
-        // dispatch(updateUsername(data.data[0]['editor_name']));
-        // dispatch(updateUserId(formObjects.userid));
 
         const userIdFromBackend = data.data[0]["editor_id"]; 
         const userNameFromBackend = data.data[0]["editor_name"];

@@ -1,7 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux'
-import Dashboard from './Dashboard'
-import Image from './Image'
-import Video from './Video'
 import Userlogin from './Userlogin'
 import UserHomepage from './UserHomepage'
 import { useEffect } from 'react'
@@ -14,7 +11,6 @@ function HomePage() {
     let userid=window.localStorage.getItem('userid')
     let username=window.localStorage.getItem('username');
     if(islogin && userid && username){
-      console.log("setting User Data");
       dispatch(updateIsLogin(true));
       dispatch(updateUsername(username));
       dispatch(updateUserId(userid));

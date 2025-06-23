@@ -74,6 +74,7 @@ export default class CustomImageTool {
                     if (response.ok && result.file.url) {
                         wrapper.removeEventListener('click', handleClick, true);
                         this.imageUrl = result.file.url;
+                        this.lowIageUrl = result.file.lowResUrl;
                         wrapper.innerHTML = '';
                         this.renderImageAndInputs(wrapper, result.file.url);
                     } else {
@@ -168,6 +169,7 @@ export default class CustomImageTool {
     save() {
         return {
             url: this.imageUrl || null,
+            lowImageUrl:this.lowIageUrl||null,
             title: this.titleInput?.value || '',
             caption: this.captionInput?.value || '',
             source: this.sourceInput?.value || ''
