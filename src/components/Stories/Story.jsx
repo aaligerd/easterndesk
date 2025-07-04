@@ -1,35 +1,24 @@
-import React,{useEffect,useState} from 'react';
-import {stories} from './Stories'
-import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateErrorMsg, updateStories } from '../../redux/stories/storySlice';
-import { getCurrentDatetimeString } from '../../utils/GetDateStructure';
-import { useNavigate } from 'react-router-dom';
-
-
-
-
+import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Paper from "@mui/material/Paper";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import { visuallyHidden } from "@mui/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { updateErrorMsg, updateStories } from "../../redux/stories/storySlice";
+import { getCurrentDatetimeString } from "../../utils/GetDateStructure";
+import { useNavigate } from "react-router-dom";
+import OptionBtn from "../OptionBtn/OptionBtn";
+import './Stories.css';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -42,75 +31,86 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 const headCells = [
   {
-    id: 'Headline',
+    id: "",
+    numeric: false,
+    disablePadding: false,
+    label: "",
+  },
+  {
+    id: "Headline",
     numeric: false,
     disablePadding: true,
-    label: 'Headline',
+    label: "Headline",
   },
   {
-    id: 'Status',
+    id: "Status",
     numeric: false,
     disablePadding: false,
-    label: 'Status',
+    label: "Status",
   },
   {
-    id: 'Category',
+    id: "Category",
     numeric: false,
     disablePadding: false,
-    label: 'Category',
+    label: "Category",
   },
   {
-    id: 'Subcategory',
+    id: "Subcategory",
     numeric: false,
     disablePadding: false,
-    label: 'Subcategory',
+    label: "Subcategory",
   },
   {
-    id: 'Lables',
+    id: "Lables",
     numeric: false,
     disablePadding: false,
-    label: 'Lables',
+    label: "Lables",
   },
   {
-    id: 'Created By',
+    id: "Created By",
     numeric: false,
     disablePadding: false,
-    label: 'Created By',
+    label: "Created By",
   },
   {
-    id: 'Created On',
+    id: "Created On",
     numeric: false,
     disablePadding: false,
-    label: 'Created On',
+    label: "Created On",
   },
   {
-    id: 'Updated By',
+    id: "Updated By",
     numeric: false,
     disablePadding: false,
-    label: 'Updated By',
+    label: "Updated By",
   },
   {
-    id: 'Updated On',
+    id: "Updated On",
     numeric: false,
     disablePadding: false,
-    label: 'Updated On',
-  }
+    label: "Updated On",
+  },
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-
 
   return (
     <TableHead>
@@ -118,19 +118,19 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding='normal'
+            align={headCell.numeric ? "right" : "left"}
+            padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -145,43 +145,46 @@ EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
 
 export default function Story() {
-  const{stories,errormsg}=useSelector((state)=>state.stories);
-  const dispatch=useDispatch();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const { stories, errormsg } = useSelector((state) => state.stories);
+  const dispatch = useDispatch();
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
- const [rows, setRows] = useState([]);
-  const navigator=useNavigate();
+  const [rows, setRows] = useState([]);
+  const navigator = useNavigate();
   useEffect(() => {
     const fetchStories = async () => {
       console.log("Fetching stories...");
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/story/get/cms/dashboard`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/story/get/cms/dashboard`
+        );
         const data = await response.json();
-        dispatch(updateStories(data.data))
+        console.log(data.data[0]);
+        dispatch(updateStories(data.data));
       } catch (error) {
         dispatch(updateErrorMsg("Error while fetching Stories"));
       }
-    }
+    };
     fetchStories();
-  },[]);
+  }, []);
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) { 
+    if (event.target.checked) {
       const newSelected = rows.map((n) => n.blog_id);
       setSelected(newSelected);
       return;
@@ -215,17 +218,17 @@ export default function Story() {
       [...stories]
         .sort(getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage,stories],
+    [order, orderBy, page, rowsPerPage, stories]
   );
-
+  const optionBtnRef = useRef([]);
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -243,34 +246,54 @@ export default function Story() {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.blog_id)}
+                    // onClick={(event) => handleClick(event, row.blog_id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.blog_id}
                     selected={isItemSelected}
-                    sx={{ cursor: 'pointer' 
-                    
-                    }}
-                    
                   >
+                    <TableCell
+                      sx={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        border: "none",
+                      }}
+                    >
+                      <OptionBtn
+                        category={row.category_name}
+                        subcategory={row.subcategory_name}
+                        seourl={row.seo_url}
+                        masterRef={optionBtnRef}
+                        index={index}
+                      />
+                    </TableCell>
 
                     <TableCell
                       component="th"
                       id={labelId}
                       scope="row"
                       padding="normal"
+                      sx={{ cursor: "pointer" }}
+
                     >
-                      {row.title}
+                      <div onClick={(event) => handleClick(event, row.blog_id)}>
+                        <p className="story-name-cell">{row.title}</p>
+                      </div>
                     </TableCell>
                     <TableCell align="left">{row.status}</TableCell>
-                    <TableCell align="left">{row.category_id}</TableCell>
-                    <TableCell align="left">{row.subcategory_id}</TableCell>
+                    <TableCell align="left">{row.category_name}</TableCell>
+                    <TableCell align="left">{row.subcategory_name}</TableCell>
                     <TableCell align="left">{row.lables}</TableCell>
-                    <TableCell align="left">{row.created_by}</TableCell>
-                    <TableCell align="left">{getCurrentDatetimeString(row.created_at)}</TableCell>
+                    <TableCell align="left">{row.published_by}</TableCell>
+                    <TableCell align="left">
+                      {getCurrentDatetimeString(row.created_at)}
+                    </TableCell>
                     <TableCell align="left">{row.updated_by}</TableCell>
-                    <TableCell align="left">{getCurrentDatetimeString(row.updated_at)}</TableCell>
+                    <TableCell align="left">
+                      {getCurrentDatetimeString(row.updated_at)}
+                    </TableCell>
+                    {/* <TableCell align="left"><OptionBtn/></TableCell> */}
                   </TableRow>
                 );
               })}

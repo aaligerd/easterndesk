@@ -16,6 +16,7 @@ const blankBloglogStructure={
     "seo_url":"",
     "seo_url_slug":"",
     "thumbnail":"",
+    "lowImageUrl":"",
     "status":"draft",
     "published_at":"",
     "updated_by":"",

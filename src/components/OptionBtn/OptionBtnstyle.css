@@ -1,0 +1,51 @@
+.action-container {
+    position: relative;
+}
+
+
+.action-container select {
+    padding: 5px;
+    width: 145px;
+}
+
+.action-btn{
+    width: 30px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.circle-dot{
+    width: 5px;
+    height: 5px;
+    background-color: #3b3b3b;
+    border-radius: 50%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 0px;
+    background-color: #ededed;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    min-width: 160px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    z-index: 1;
+
+}
+
+.dropdown-visible {
+  display: flex;
+}
+
+
+.dropdown-content div {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}

@@ -123,6 +123,7 @@ function BlogEditor() {
       }
   }
 
+  
   return (
     <div className='blog-container'>
       <div className='editor-button-groups'>

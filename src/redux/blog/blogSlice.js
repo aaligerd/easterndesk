@@ -76,10 +76,13 @@ export const blogSlice = createSlice({
         },
         updateEditedBy:(state,action)=>{
             state.edited_by = action.payload
+        },
+        updateLowResImage:(state,action)=>{
+            state.lowImageUrl=action.payload
         }
     }
 })
 
-export const { updateTitle,updateContent, updateCategory, updatecreatedBy, updatecreatedDate, updateSubcategory, addLables, removeLables, updateSeoTitle, updateSeoDesc, updateSeoKeyWords, updateSeoURL, updateSeoThumbnail,updateUpdatedAt,updateUpdatedBy,updatePublisedAt,updateStatus,updateSeoHeadline,updateSeoURLSlug,updateBlogId,updateByLine,updatePublishedBy,updateEditedBy} = blogSlice.actions
+export const { updateTitle,updateContent, updateCategory, updatecreatedBy, updatecreatedDate, updateSubcategory, addLables, removeLables, updateSeoTitle, updateSeoDesc, updateSeoKeyWords, updateSeoURL, updateSeoThumbnail,updateUpdatedAt,updateUpdatedBy,updatePublisedAt,updateStatus,updateSeoHeadline,updateSeoURLSlug,updateBlogId,updateByLine,updatePublishedBy,updateEditedBy,updateLowResImage} = blogSlice.actions
 
 export default blogSlice.reducer

@@ -18,6 +18,7 @@ import {
   updateByLine,
   updateEditedBy,
   updatePublishedBy,
+  updateLowResImage,
 } from "../redux/blog/blogSlice.js";
 function BlogInputs({ loaderSetter }) {
   const imagesrc = useRef();
@@ -122,6 +123,7 @@ function BlogInputs({ loaderSetter }) {
       });
       const response = await res.json();
       dispatch(updateSeoThumbnail(response.file.url));
+      dispatch(updateLowResImage(response.file.lowResUrl));
     } catch (error) {
       console.log(error);
     } finally {
